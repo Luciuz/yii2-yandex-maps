@@ -227,6 +227,8 @@ class Map extends JavaScript implements GeoObjectCollection, EventAggregate
 
         if (count($this->objects) > 0) {
             $js[] = $this->makeObjectsScript();
+        }
+        if (count($this->objects) > 1) {
             $js[] = "{$this->id}.setBounds({$this->id}.geoObjects.getBounds());";
         }
         if (count($this->controls) > 0) {
