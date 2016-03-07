@@ -67,6 +67,11 @@ class Map extends JavaScript implements GeoObjectCollection, EventAggregate
      * @var array
      */
     private $events = [];
+    
+    /**
+     * @var string
+     */
+    private $code = '';
 
     /**
      * @param string $id
@@ -91,6 +96,10 @@ class Map extends JavaScript implements GeoObjectCollection, EventAggregate
             $this->setObjects($options['objects']);
             unset($options['objects']);
         }
+        if (isset($options['code'])) {
+            $this->setCode($options['code']);
+            unset($options['code']);
+        }
         $this->options = $options;
     }
 
@@ -104,11 +113,10 @@ class Map extends JavaScript implements GeoObjectCollection, EventAggregate
 
     /**
      * @param string $code
-     * @throws Exception
      */
-    final public function setCode($code)
+    public function setCode($code)
     {
-        throw new Exception('Cannot change code directly.');
+        $this->code = $code;
     }
 
     /**
@@ -230,6 +238,9 @@ class Map extends JavaScript implements GeoObjectCollection, EventAggregate
         }
         if (count($this->controls) > 0) {
             $js[] = $this->makeControlsScript();
+        }
+        if ($this->code) {
+            $js[] = $this->code;
         }
 
         $js = implode(";\n", $js);
